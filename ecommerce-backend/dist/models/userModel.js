@@ -35,7 +35,7 @@ const UserSchema = new mongoose.Schema({
     dob: {
         type: Date,
         required: [true, "Please provide your Date Of Birth"],
-    }
+    },
 }, {
     timestamps: true,
 });
@@ -43,7 +43,8 @@ UserSchema.virtual("age").get(function () {
     const today = new Date();
     const dob = this.dob;
     let age = today.getFullYear() - dob.getFullYear();
-    if (today.getMonth() < dob.getMonth() || (today.getMonth === dob.getMonth && today.getDate() < dob.getDate())) {
+    if (today.getMonth() < dob.getMonth() ||
+        (today.getMonth === dob.getMonth && today.getDate() < dob.getDate())) {
         age--;
     }
     return age;

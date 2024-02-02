@@ -10,7 +10,7 @@ export const newUser = TryCatch(
     res: Response,
     next: NextFunction
   ) => {
-    const { _id, name, email, photo, gender, dob } = req.body;
+    const { _id, name, email, photo, role, gender, dob } = req.body;
 
     let user = await User.findById(_id);
 
@@ -21,7 +21,7 @@ export const newUser = TryCatch(
       });
     }
 
-    if (!_id || !name || !email || !photo || !gender || !dob) {
+    if (!_id || !name || !role || !email || !photo || !gender || !dob) {
       return next(new ErrorHandler("Please Enter all the Fields", 400));
     }
 
@@ -30,6 +30,7 @@ export const newUser = TryCatch(
       name,
       email,
       photo,
+      role,
       gender,
       dob: new Date(dob),
     });
@@ -44,7 +45,7 @@ export const newUser = TryCatch(
 export const getAllUsers = TryCatch(async (req, res, next) => {
   const users = await User.find({});
 
-  return res.status(201).json({
+  return res.status(200).json({
     success: true,
     users,
   });

@@ -2,7 +2,7 @@ import { User } from "../models/userModel.js";
 import { TryCatch } from "../middlewares/error.js";
 import ErrorHandler from "../utils/utility-class.js";
 export const newUser = TryCatch(async (req, res, next) => {
-    const { _id, name, email, photo, gender, dob } = req.body;
+    const { _id, name, email, photo, role, gender, dob } = req.body;
     let user = await User.findById(_id);
     if (user) {
         return res.status(200).json({
@@ -10,7 +10,7 @@ export const newUser = TryCatch(async (req, res, next) => {
             message: `Welcome, ${user.name}`,
         });
     }
-    if (!_id || !name || !email || !photo || !gender || !dob) {
+    if (!_id || !name || !role || !email || !photo || !gender || !dob) {
         return next(new ErrorHandler("Please Enter all the Fields", 400));
     }
     user = await User.create({
@@ -18,6 +18,7 @@ export const newUser = TryCatch(async (req, res, next) => {
         name,
         email,
         photo,
+        role,
         gender,
         dob: new Date(dob),
     });
@@ -28,7 +29,7 @@ export const newUser = TryCatch(async (req, res, next) => {
 });
 export const getAllUsers = TryCatch(async (req, res, next) => {
     const users = await User.find({});
-    return res.status(201).json({
+    return res.status(200).json({
         success: true,
         users,
     });

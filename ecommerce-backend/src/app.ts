@@ -3,10 +3,10 @@ import userRouter from "./routes/userRoutes.js";
 import { connectDB } from "./utils/features.js";
 import { errorMiddleware } from "./middlewares/error.js";
 
+connectDB();
+
 const app = express();
 const port = 5000;
-
-connectDB();
 
 app.use(express.json());
 
