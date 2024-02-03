@@ -1,5 +1,4 @@
 import multer from "multer";
-import { extname } from "path";
 import { v4 as uuid } from "uuid";
 
 const storage = multer.diskStorage({
