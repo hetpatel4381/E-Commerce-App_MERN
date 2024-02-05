@@ -41,3 +41,12 @@ export interface BaseQuery {
   };
   category?: string;
 }
+
+export type InvalidatesCacheProps = {
+  product?: boolean;
+  order?: boolean;
+  admin?: boolean;
+  userId?: string;
+  orderId?: string;
+  productId?: string | string[];
+};
