@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { myCache } from "../app.js";
+import { Product } from "../models/productModel.js";
 export const connectDB = (uri) => {
     mongoose
         .connect(uri, {
@@ -30,5 +31,16 @@ export const invalidatesCache = async ({ product, order, admin, userId, orderId,
             productId.forEach((i) => productKeys.push(`product-${i}`));
         }
         myCache.del(productKeys);
+    }
+};
+export const reduceStock = async (orderItems) => {
+    for (let i = 0; i < orderItems.length; i++) {
+        const order = orderItems[i];
+        const product = await Product.findById(order.productId);
+        if (!product) {
+            throw new Error("Product Not Found!");
+        }
+        product.stock -= order.quantity;
+        await product.save();
     }
 };
