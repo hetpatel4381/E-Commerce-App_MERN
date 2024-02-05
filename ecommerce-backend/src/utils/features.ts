@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { InvalidatesCacheProps, OrderItemType } from "../types/types.js";
 import { myCache } from "../app.js";
 import { Product } from "../models/productModel.js";
+import { Order } from "../models/orderModel.js";
 
 export const connectDB = (uri: string) => {
   mongoose
@@ -46,6 +47,25 @@ export const invalidatesCache = async ({
     }
 
     myCache.del(productKeys);
+  }
+
+  if (order) {
+    const ordersKeys: string[] = [
+      "all-orders",
+      `my-orders-${userId}`,
+      `order-${orderId}`,
+    ];
+
+    myCache.del(ordersKeys);
+  }
+
+  if (admin) {
+    myCache.del([
+      "admin-stats",
+      "admin-pie-charts",
+      "admin-bar-charts",
+      "admin-line-charts",
+    ]);
   }
 };
 

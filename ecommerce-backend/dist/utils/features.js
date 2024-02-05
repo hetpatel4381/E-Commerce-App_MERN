@@ -32,6 +32,22 @@ export const invalidatesCache = async ({ product, order, admin, userId, orderId,
         }
         myCache.del(productKeys);
     }
+    if (order) {
+        const ordersKeys = [
+            "all-orders",
+            `my-orders-${userId}`,
+            `order-${orderId}`,
+        ];
+        myCache.del(ordersKeys);
+    }
+    if (admin) {
+        myCache.del([
+            "admin-stats",
+            "admin-pie-charts",
+            "admin-bar-charts",
+            "admin-line-charts",
+        ]);
+    }
 };
 export const reduceStock = async (orderItems) => {
     for (let i = 0; i < orderItems.length; i++) {
